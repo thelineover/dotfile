@@ -1,0 +1,1 @@
+/home/neobby-dev/.oh-my-zsh/themes/agnoster.zsh-theme
