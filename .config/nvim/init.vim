@@ -109,6 +109,7 @@ autocmd Filetype c, cpp setlocal expandtab tabstop=2 shiftwidth=2 cindent
 " Airline
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnamemod =':t'
 
 " Limelight
 autocmd! User GoyoEnter Limelight
@@ -143,10 +144,16 @@ let g:indentLine_color_gui = '#363949'
 " Ctrl-p
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
 set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\.git$\|public$\|log$\|tmp$\|vendor$',
-  \ 'file': '\v\.(exe|so|dll)$'
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
   \ }
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Color_Scheme
@@ -207,4 +214,11 @@ noremap <leader>gst :Gstatus<cr> " Git status
 noremap <silent><leader>= :exe "resize +3"<cr>
 noremap <silent><leader>- :exe "resize -3"<cr>
 noremap <silent><leader>] :exe "vertical resize +8"<cr>
-noremap <silent><leader>- :exe "vertical resize -8"<cr>
+noremap <silent><leader>[ :exe "vertical resize -8"<cr>
+
+" Use arrow keys to switch tabs
+noremap <leader><Left> :tabprevious <cr>
+noremap <leader><Right> :tabnext <cr>
+noremap <Left> :bprevious<cr>
+noremap <Right> :bnext<cr>
+nmap <leader>bq :bp <BAR> bd #<cr>
