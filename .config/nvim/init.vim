@@ -38,6 +38,10 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'romainl/vim-cool'
 Plug 'ntpeters/vim-better-whitespace'
+" Git integration glore
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
+
 call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -60,18 +64,25 @@ set smarttab
 set autoindent
 set smartindent
 
+" read/write file when switching buffers
+set autowrite
+set autoread
+
 " Searching
 nnoremap / /\v
 vnoremap / /\v
 set ignorecase
 set smartcase
 
+" Hightlight cursor line
+set cursorline
+
 " Accelerated scrolling
 set scrolljump=-15
 
 " Git Gutter always shows
 set signcolumn=yes
-
+set updatetime=1000
 " Undo function after reopening
 set undofile
 set undodir=/tmp
@@ -170,7 +181,7 @@ let mapleader=","
 map <leader>q :NERDTreeToggle<cr>
 nmap <leader>\ :NERDTreeToggle<cr>
 nmap \ <leader>q
-nmap <leader>goyo :Goyo<cr>
+nmap <leader>@@ :Goyo<cr>
 nmap <leader>w :TagbarToggle<cr>
 nmap <leader>l :Limelight!!<cr>
 xmap <leader>l :Limelight!!<cr>
@@ -183,13 +194,17 @@ nmap <leader>e3 :call ColorForgotten()<cr>
 map <leader>fzf :Files<cr>
 xmap <leader>a gaip*
 nmap <leader>a gaip*
-nmap <leader>w- :split<cr>
-nmap <leader>w\ :vsplit<cr>
+nmap <leader>w- :split
+nmap <leader>w\ :vsplit
 nmap <leader>t :StripWhitespace<cr>
 nmap <leader>r :so ~/.config/nvim/init.vim<cr>
-" Don't use Ex mode, use Q for formatting
-map Q gq
-cmap Wq wq
+map Q gq " Don't use Ex mode, use Q for formatting
+cmap Wq wq " Don't make mistake
 cmap W w
 noremap <leader><space> :nohlsearch<cr>
 noremap <F2> :set invpaste paste?<cr>
+noremap <leader>gst :Gstatus<cr> " Git status
+noremap <silent><leader>= :exe "resize +3"<cr>
+noremap <silent><leader>- :exe "resize -3"<cr>
+noremap <silent><leader>] :exe "vertical resize +8"<cr>
+noremap <silent><leader>- :exe "vertical resize -8"<cr>
