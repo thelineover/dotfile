@@ -48,7 +48,6 @@ colorscheme molokai
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
-set guioptions=
 
 " Tab settings
 set shiftwidth=4
@@ -67,9 +66,15 @@ vnoremap / /\v
 set ignorecase
 set smartcase
 
-" accelerated scrolling
+" Accelerated scrolling
 set scrolljump=-15
-set lazyredraw
+
+" Git Gutter always shows
+set signcolumn=yes
+
+" Undo function after reopening
+set undofile
+set undodir=/tmp
 
 set number relativenumber
 autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
@@ -92,6 +97,7 @@ autocmd Filetype c, cpp setlocal expandtab tabstop=2 shiftwidth=2 cindent
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Airline
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
 
 " Limelight
 autocmd! User GoyoEnter Limelight
@@ -103,10 +109,17 @@ let g:limelight_conceal_ctermfg = 240
 let NERDTreeShowHidden=1
 let g:NERDTreeDirArrowExpandable = '↠'
 let g:NERDTreeDirArrowCollapsible = '↡'
+" Close vim if the last window open is NerdTree
+autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " TagBar
 let g:tagbar_width = 35
 let g:tagbar_iconchars = ['↠', '↡']
+
+" Don't be too smart across lines
+let g:AutoPairsMultilineClose=0
+" Don't insert extra spaces
+let g:AutoPairsMapSpace=0
 
 " EasyAlign
 xmap ga <Plug>(EasyAlign)
@@ -174,6 +187,9 @@ nmap <leader>w- :split<cr>
 nmap <leader>w\ :vsplit<cr>
 nmap <leader>t :StripWhitespace<cr>
 nmap <leader>r :so ~/.config/nvim/init.vim<cr>
+" Don't use Ex mode, use Q for formatting
+map Q gq
 cmap Wq wq
+cmap W w
 noremap <leader><space> :nohlsearch<cr>
 noremap <F2> :set invpaste paste?<cr>
