@@ -1,10 +1,12 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
+let mapleader=","
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Vim-plug (Using https://github.com/junegunn/vim-plug)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.config/nvim/')
 " Aesthetics plugins
 Plug 'ryanoasis/vim-devicons'
-Plug 'ryanoasis/vim-webdevicons'
+" Plug 'ryanoasis/vim-webdevicons'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/goyo.vim'
@@ -22,10 +24,13 @@ Plug 'yuttie/hydrangea-vim'
 Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim' }
 Plug 'rhysd/vim-color-spring-night'
 Plug 'tomasr/molokai'
+Plug 'junegunn/vim-emoji'
+Plug 'vwxyutarooo/nerdtree-devicons-syntax'
 
 " Functional plugins
 Plug 'majutsushi/tagbar'
-Plug 'preservim/nerdtree'
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/vim-easy-align'
 Plug 'Yggdroot/indentLine'
@@ -33,15 +38,18 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  }
 Plug 'junegunn/fzf.vim'
 Plug 'chrisbra/Colorizer'
 Plug 'tpope/vim-commentary'
-Plug 'airblade/vim-gitgutter'
 Plug 'machakann/vim-highlightedyank'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'romainl/vim-cool'
 Plug 'ntpeters/vim-better-whitespace'
-" Git integration glore
+Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'yuttie/comfortable-motion.vim'
 
+" Autocompletion
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -49,14 +57,17 @@ call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:molokai_original=1
 colorscheme molokai
+set hidden
+set guifont=Hack\10
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
+set pastetoggle=<F2>
 
 " Tab settings
 set shiftwidth=4
 set tabstop=3
-set softtabstop=4
+set softtabstop=3
 set expandtab
 set smarttab
 
@@ -82,7 +93,8 @@ set scrolljump=-15
 
 " Git Gutter always shows
 set signcolumn=yes
-set updatetime=1000
+set updatetime=500
+
 " Undo function after reopening
 set undofile
 set undodir=/tmp
@@ -107,7 +119,7 @@ autocmd Filetype c, cpp setlocal expandtab tabstop=2 shiftwidth=2 cindent
 """ Plugin configuration
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Airline
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 0
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod =':t'
 
@@ -119,10 +131,32 @@ let g:limelight_conceal_ctermfg = 240
 
 " NERDTree
 let NERDTreeShowHidden=1
-let g:NERDTreeDirArrowExpandable = '↠'
-let g:NERDTreeDirArrowCollapsible = '↡'
+let NerdTreeShowLineNumbers=0
+let g:NERDTreeDirArrowExpandable = '▸' " '↠'
+let g:NERDTreeDirArrowCollapsible = '▾' " '↡'
+
 " Close vim if the last window open is NerdTree
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" NerdTree git plugin
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "🚧",
+    \ "Staged"    : "🌟",
+    \ "Untracked" : "🔎",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "💫",
+    \ "Deleted"   : "❌",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ 'Ignored'   : '☒',
+    \ "Unknown"   : "❓"
+    \ }
+
+" Git-gutter
+let g:gitgutter_sign_added = emoji#for('heavy_plus_sign')
+let g:gitgutter_sign_modified = emoji#for('hammer')
+let g:gitgutter_sign_removed = emoji#for('heavy_minus_sign')
+let g:gitgutter_sign_modified_removed = emoji#for('collision')
 
 " TagBar
 let g:tagbar_width = 35
@@ -141,6 +175,10 @@ nmap ga <Plug>(EasyAlign)
 let g:indentLine_char = '▏'
 let g:indentLine_color_gui = '#363949'
 
+" Comfort scroll
+let g:comfortable_motion_scroll_down_key = "j"
+let g:comfortable_motion_scroll_up_key = "k"
+
 " Ctrl-p
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
 set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
@@ -153,8 +191,7 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(exe|so|dll)$',
   \ 'link': 'some_bad_symbolic_links',
   \ }
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
-
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Color_Scheme
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -184,41 +221,53 @@ endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Custom keydding
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
-let mapleader=","
-map <leader>q :NERDTreeToggle<cr>
-nmap <leader>\ :NERDTreeToggle<cr>
+map  <leader>q :NERDTreeToggle<cr>
 nmap \ <leader>q
-nmap <leader>@@ :Goyo<cr>
 nmap <leader>w :TagbarToggle<cr>
-nmap <leader>l :Limelight!!<cr>
-xmap <leader>l :Limelight!!<cr>
-nmap <leader>h :RainbowParentheses!!<cr>
+nmap <leader>@@ :Goyo<cr>
 nmap <leader>ee :Colors<cr>
 nmap <leader>ea :AirlineTheme
 nmap <leader>e0 :call ColorDracula()<cr>
 nmap <leader>e2 :call ColorSeoul256()<cr>
 nmap <leader>e3 :call ColorForgotten()<cr>
-map <leader>fzf :Files<cr>
+map  <leader>fzf :Files<cr>
+
+" Easy-align
 xmap <leader>a gaip*
 nmap <leader>a gaip*
+
+" Split
 nmap <leader>w- :split
 nmap <leader>w\ :vsplit
-nmap <leader>t :StripWhitespace<cr>
+
+" trailing whitespace
+nnoremap <leader>t :StripWhitespace<cr>
+
+" reload init.vim
 nmap <leader>r :so ~/.config/nvim/init.vim<cr>
-map Q gq " Don't use Ex mode, use Q for formatting
-cmap Wq wq " Don't make mistake
-cmap W w
-noremap <leader><space> :nohlsearch<cr>
-noremap <F2> :set invpaste paste?<cr>
-noremap <leader>gst :Gstatus<cr> " Git status
+
+" Git status
+noremap <leader>gst :Gstatus<cr>
+
+" Resizing windows
 noremap <silent><leader>= :exe "resize +3"<cr>
 noremap <silent><leader>- :exe "resize -3"<cr>
 noremap <silent><leader>] :exe "vertical resize +8"<cr>
 noremap <silent><leader>[ :exe "vertical resize -8"<cr>
 
 " Use arrow keys to switch tabs
+noremap <leader>bq :bp <BAR> bd #<cr>
 noremap <leader><Left> :tabprevious <cr>
-noremap <leader><Right> :tabnext <cr>
+noremap <leader><Right> :tabnext     <cr>
 noremap <Left> :bprevious<cr>
 noremap <Right> :bnext<cr>
-nmap <leader>bq :bp <BAR> bd #<cr>
+noremap <leader>to :tabnew
+
+" Sort lines in alphabetical order
+vnoremap <leader>s :'<,'>!sort -f<cr>
+
+" Some mistake keys
+map Q gq
+cmap Wq wq
+cmap W w
+cmap Q q

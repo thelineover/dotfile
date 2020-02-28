@@ -50,7 +50,7 @@ fi
 # My-aliases
 alias ez="nvim ~/.zshrc"
 alias sz="source ~/.zshrc"
-alias et="vim ~/.tmux.conf"
+alias et="nvim ~/.tmux.conf"
 alias vimrc="vim ~/.vimrc"
 alias nvimrc="nvim ~/.config/nvim/init.vim"
 alias cl="clear"
@@ -59,7 +59,7 @@ alias deactivate="pyenv deactivate"
 alias -g gp="| grep -i"
 alias vim="nvim"
 alias celar="clear"
-
+alias deact="pyenv deactivate"
 prompt_context() {
   if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
     prompt_segment black default "🔥 %(!.%{%F{blue}.%})$USER"
@@ -90,4 +90,7 @@ eval $(thefuck --alias)
 alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
