@@ -16,20 +16,7 @@ ZSH_THEME="agnoster"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(
-	git
-	fzf
-	sudo
-	zsh-256color
-	h
-	forgit
-	zsh-autosuggestions
-	zsh-interactive-cd
-	emoji-cli
-	fast-syntax-highlighting
-	up
-	tmux
-)
+plugins=(git fzf sudo zsh-256color h forgit zsh-autosuggestions zsh-interactive-cd emoji-cli fast-syntax-highlighting up tmux)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -57,7 +44,7 @@ alias cl="clear"
 alias dev="cd /mnt/c/Users/Neobby_Dev/DevOps"
 alias deactivate="pyenv deactivate"
 alias -g gp="| grep -i"
-alias vim="nvim"
+alias v="nvim"
 alias celar="clear"
 alias deact="pyenv deactivate"
 prompt_context() {

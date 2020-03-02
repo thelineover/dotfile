@@ -26,6 +26,7 @@ Plug 'rhysd/vim-color-spring-night'
 Plug 'tomasr/molokai'
 Plug 'junegunn/vim-emoji'
 Plug 'vwxyutarooo/nerdtree-devicons-syntax'
+Plug 'arzg/vim-colors-xcode'
 
 " Functional plugins
 Plug 'majutsushi/tagbar'
@@ -36,7 +37,8 @@ Plug 'junegunn/vim-easy-align'
 Plug 'Yggdroot/indentLine'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  }
 Plug 'junegunn/fzf.vim'
-Plug 'chrisbra/Colorizer'
+" Plug 'chrisbra/Colorizer'
+Plug 'lilydjwg/colorizer'
 Plug 'tpope/vim-commentary'
 Plug 'machakann/vim-highlightedyank'
 Plug 'ctrlpvim/ctrlp.vim'
@@ -47,16 +49,18 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'yuttie/comfortable-motion.vim'
+Plug 'PeterRincker/vim-searchlight'
 
 " Autocompletion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ General Configuration
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:molokai_original=1
-colorscheme molokai
+" let g:molokai_original=1
+colorscheme xcodedark "molokai
+" let g:airline_theme='molokai'
+
 set hidden
 set guifont=Hack\10
 
@@ -85,6 +89,27 @@ vnoremap / /\v
 set ignorecase
 set smartcase
 
+" Column limits
+set textwidth=110
+set colorcolumn=110
+" Toggle between column widths
+nnoremap <leader>c :call ToggleColumnWidth()<cr>
+let g:wide_column = 1
+function! ToggleColumnWidth()
+    if g:wide_column
+        set textwidth=80
+        set colorcolumn=80
+        let g:wide_column = 0
+    else
+        set textwidth=110
+        set colorcolumn=110
+        let g:wide_column = 1
+    endif
+endfunction
+
+" See help
+set formatoptions=qrnj1
+
 " Hightlight cursor line
 set cursorline
 
@@ -93,7 +118,7 @@ set scrolljump=-15
 
 " Git Gutter always shows
 set signcolumn=yes
-set updatetime=500
+set updatetime=300
 
 " Undo function after reopening
 set undofile
@@ -132,8 +157,8 @@ let g:limelight_conceal_ctermfg = 240
 " NERDTree
 let NERDTreeShowHidden=1
 let NerdTreeShowLineNumbers=0
-let g:NERDTreeDirArrowExpandable = '▸' " '↠'
-let g:NERDTreeDirArrowCollapsible = '▾' " '↡'
+let g:NERDTreeDirArrowExpandable =  '▸' "'↠'
+let g:NERDTreeDirArrowCollapsible = '🔰' " '▾' '↡'
 
 " Close vim if the last window open is NerdTree
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -141,14 +166,14 @@ autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " NerdTree git plugin
 let g:NERDTreeIndicatorMapCustom = {
     \ "Modified"  : "🚧",
-    \ "Staged"    : "🌟",
+    \ "Staged"    : "📋",
     \ "Untracked" : "🔎",
     \ "Renamed"   : "➜",
     \ "Unmerged"  : "💫",
     \ "Deleted"   : "❌",
     \ "Dirty"     : "✗",
-    \ "Clean"     : "✔︎",
-    \ 'Ignored'   : '☒',
+    \ "Clean"     : "🍀",
+    \ 'Ignored'   : '💢',
     \ "Unknown"   : "❓"
     \ }
 
@@ -192,6 +217,7 @@ let g:ctrlp_custom_ignore = {
   \ 'link': 'some_bad_symbolic_links',
   \ }
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Color_Scheme
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -221,16 +247,18 @@ endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Custom keydding
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
-map  <leader>q :NERDTreeToggle<cr>
 nmap \ <leader>q
+map  <leader>q :NERDTreeToggle<cr>
 nmap <leader>w :TagbarToggle<cr>
-nmap <leader>@@ :Goyo<cr>
+nmap <leader>z :Goyo<cr>
+map  <leader>fzf :Files<cr>
+
+" Colors option
 nmap <leader>ee :Colors<cr>
 nmap <leader>ea :AirlineTheme
 nmap <leader>e0 :call ColorDracula()<cr>
 nmap <leader>e2 :call ColorSeoul256()<cr>
 nmap <leader>e3 :call ColorForgotten()<cr>
-map  <leader>fzf :Files<cr>
 
 " Easy-align
 xmap <leader>a gaip*
