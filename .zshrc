@@ -35,11 +35,11 @@ else
 fi
 
 # My-aliases
-alias ez="nvim ~/.zshrc"
+alias ez="v ~/.zshrc"
 alias sz="source ~/.zshrc"
-alias et="nvim ~/.tmux.conf"
+alias et="v ~/.tmux.conf"
 alias vimrc="vim ~/.vimrc"
-alias nvimrc="nvim ~/.config/nvim/init.vim"
+alias nvimrc="v ~/.config/nvim/init.vim"
 alias cl="clear"
 alias dev="cd /mnt/c/Users/Neobby_Dev/DevOps"
 alias deactivate="pyenv deactivate"
@@ -47,9 +47,10 @@ alias -g gp="| grep -i"
 alias v="nvim"
 alias celar="clear"
 alias deact="pyenv deactivate"
+
 prompt_context() {
   if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
-    prompt_segment black default "🔥 %(!.%{%F{blue}.%})$USER"
+    prompt_segment black default "🔥 %(!.%{%F{white}.%})$USER"
   fi
 }
 
@@ -76,8 +77,12 @@ eval $(thefuck --alias)
 # dotfile
 alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME"
 
+# Fuzzy finder
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# NVM
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
+# X11
+export DISPLAY=:0

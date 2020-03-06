@@ -37,35 +37,47 @@ Plug 'junegunn/vim-easy-align'
 Plug 'Yggdroot/indentLine'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  }
 Plug 'junegunn/fzf.vim'
-" Plug 'chrisbra/Colorizer'
-Plug 'lilydjwg/colorizer'
-Plug 'tpope/vim-commentary'
+Plug 'chrisbra/Colorizer'
 Plug 'machakann/vim-highlightedyank'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'romainl/vim-cool'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'yuttie/comfortable-motion.vim'
 Plug 'PeterRincker/vim-searchlight'
+Plug 'mbbill/undotree'
+Plug 'metakirby5/codi.vim'
+Plug 'ervandew/supertab'
+
+" Snippets
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 " Autocompletion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Syntax
+Plug 'dense-analysis/ale'
+Plug 'sheerun/vim-polyglot'
 call plug#end()
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ General Configuration
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
-" let g:molokai_original=1
-colorscheme xcodedark "molokai
-" let g:airline_theme='molokai'
-
 set hidden
-set guifont=Hack\10
 
-" allow backspacing over everything in insert mode
-set backspace=indent,eol,start
+set showcmd
+set cmdheight=2
+
+set nobackup
+set nowritebackup
+
+" PasteToggle
 set pastetoggle=<F2>
 
 " Tab settings
@@ -92,17 +104,19 @@ set smartcase
 " Column limits
 set textwidth=110
 set colorcolumn=110
+
 " Toggle between column widths
-nnoremap <leader>c :call ToggleColumnWidth()<cr>
 let g:wide_column = 1
 function! ToggleColumnWidth()
     if g:wide_column
         set textwidth=80
         set colorcolumn=80
+        highlight colorcolumn ctermbg=lightcyan guibg=lightblue
         let g:wide_column = 0
     else
         set textwidth=110
         set colorcolumn=110
+        highlight colorcolumn ctermbg=lightgrey guibg=lightgrey
         let g:wide_column = 1
     endif
 endfunction
@@ -134,7 +148,22 @@ au BufReadPost *
   \ exe "norm g`\"" |
   \ endif
 
+" Toggle quickfix windown
+nnoremap <leader><leader> :call ToggleQuickfix()<cr>
+function! ToggleQuickfix()
+  for buffer in tabpagebuflist()
+    if bufname(buffer) == ''
+      " then it should be the quickfix window
+      cclose
+      return
+    endif
+  endfor
+
+  copen
+endfunction
+
 " Filetype
+filetype plugin indent on
 autocmd FileType markdown setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType journal setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 expandtab
@@ -143,6 +172,14 @@ autocmd Filetype c, cpp setlocal expandtab tabstop=2 shiftwidth=2 cindent
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Plugin configuration
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Supertab
+let g:SuperTabDefaultCompletionType = "<C-n>"
+
+" Ultisnips
+let g:UltiSnipsExpandTrigger="<C-Space>"
+let g:UltiSnipsJumpForwardTrigger="<Tab>"
+let g:UltiSnipsJumpBackwardTrigger="<C-x>"
+
 " Airline
 let g:airline_powerline_fonts = 0
 let g:airline#extensions#tabline#enabled = 1
@@ -189,6 +226,7 @@ let g:tagbar_iconchars = ['↠', '↡']
 
 " Don't be too smart across lines
 let g:AutoPairsMultilineClose=0
+
 " Don't insert extra spaces
 let g:AutoPairsMapSpace=0
 
@@ -204,23 +242,11 @@ let g:indentLine_color_gui = '#363949'
 let g:comfortable_motion_scroll_down_key = "j"
 let g:comfortable_motion_scroll_up_key = "k"
 
-" Ctrl-p
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
-set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ 'link': 'some_bad_symbolic_links',
-  \ }
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Color_Scheme
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
+colorscheme xcodedark
+
 " Dracula Mode (Dark)
 function! ColorDracula()
     let g:airline_theme=''
@@ -248,9 +274,9 @@ endfunction
 """ Custom keydding
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
 nmap \ <leader>q
-map  <leader>q :NERDTreeToggle<cr>
-nmap <leader>w :TagbarToggle<cr>
-nmap <leader>z :Goyo<cr>
+map  <silent><leader>q :NERDTreeToggle<cr>
+nmap <silent><leader>w :TagbarToggle<cr>
+nmap <leader>zz :Goyo<cr>
 map  <leader>fzf :Files<cr>
 
 " Colors option
@@ -265,8 +291,8 @@ xmap <leader>a gaip*
 nmap <leader>a gaip*
 
 " Split
-nmap <leader>w- :split
-nmap <leader>w\ :vsplit
+nmap <leader>s- :split
+nmap <leader>s\ :vsplit
 
 " trailing whitespace
 nnoremap <leader>t :StripWhitespace<cr>
@@ -276,12 +302,16 @@ nmap <leader>r :so ~/.config/nvim/init.vim<cr>
 
 " Git status
 noremap <leader>gst :Gstatus<cr>
+noremap <leader>git :Git
+
+" Toggle ColumnWidth
+nnoremap <leader>c :call ToggleColumnWidth()<cr>
 
 " Resizing windows
 noremap <silent><leader>= :exe "resize +3"<cr>
 noremap <silent><leader>- :exe "resize -3"<cr>
-noremap <silent><leader>] :exe "vertical resize +8"<cr>
-noremap <silent><leader>[ :exe "vertical resize -8"<cr>
+noremap <silent><leader>1 :exe "vertical resize -8"<cr>
+noremap <silent><leader>2 :exe "vertical resize +8"<cr>
 
 " Use arrow keys to switch tabs
 noremap <leader>bq :bp <BAR> bd #<cr>
@@ -293,6 +323,12 @@ noremap <leader>to :tabnew
 
 " Sort lines in alphabetical order
 vnoremap <leader>s :'<,'>!sort -f<cr>
+
+" For python codi
+noremap <leader>codi :Codi!!<cr>
+
+" UndoTree history undo
+noremap <F3> :UndotreeToggle<cr>
 
 " Some mistake keys
 map Q gq
