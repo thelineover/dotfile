@@ -2,8 +2,12 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 export TERM=xterm-256color
+
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
+
+# Python path
+export PYTHONPATH=$HOME/.pyenv/versions/3.8.1/lib/python3.8/site-packages
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
