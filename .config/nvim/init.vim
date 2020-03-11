@@ -1,12 +1,12 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader=","
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""" Vim-plug (Using https://github.com/junegunn/vim-plug)
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" Vim-plug
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.config/nvim/')
 " Aesthetics plugins
 Plug 'ryanoasis/vim-devicons'
-" Plug 'ryanoasis/vim-webdevicons'
+Plug 'ryanoasis/vim-webdevicons'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/goyo.vim'
@@ -27,6 +27,7 @@ Plug 'tomasr/molokai'
 Plug 'junegunn/vim-emoji'
 Plug 'vwxyutarooo/nerdtree-devicons-syntax'
 Plug 'arzg/vim-colors-xcode'
+Plug 'kristijanhusak/vim-hybrid-material'
 
 " Functional plugins
 Plug 'majutsushi/tagbar'
@@ -53,6 +54,9 @@ Plug 'PeterRincker/vim-searchlight'
 Plug 'mbbill/undotree'
 Plug 'metakirby5/codi.vim'
 Plug 'ervandew/supertab'
+Plug 'terryma/vim-expand-region'
+Plug 'blueyed/vim-diminactive'
+Plug 'jeetsukumaran/vim-buffergator'
 
 " Snippets
 Plug 'SirVer/ultisnips'
@@ -62,17 +66,23 @@ Plug 'honza/vim-snippets'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Syntax
+Plug 'elzr/vim-json'
 Plug 'dense-analysis/ale'
 Plug 'sheerun/vim-polyglot'
+Plug 'vim-python/python-syntax'
 call plug#end()
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ General Configuration
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+syntax on
 set hidden
-
-set showcmd
-set cmdheight=2
+set title
+set showcmd showmode
+set list listchars=trail:»,tab:»-,eol:¬
+set fillchars+=vert:\
+set wrap breakindent
+set ruler
 
 set nobackup
 set nowritebackup
@@ -82,8 +92,8 @@ set pastetoggle=<F2>
 
 " Tab settings
 set shiftwidth=4
-set tabstop=3
-set softtabstop=3
+set tabstop=4
+set softtabstop=4
 set expandtab
 set smarttab
 
@@ -128,7 +138,7 @@ set formatoptions=qrnj1
 set cursorline
 
 " Accelerated scrolling
-set scrolljump=-15
+set scrolljump=-20
 
 " Git Gutter always shows
 set signcolumn=yes
@@ -148,7 +158,8 @@ au BufReadPost *
   \ exe "norm g`\"" |
   \ endif
 
-" Toggle quickfix windown
+
+" Toggle quickfix window
 nnoremap <leader><leader> :call ToggleQuickfix()<cr>
 function! ToggleQuickfix()
   for buffer in tabpagebuflist()
@@ -167,11 +178,20 @@ filetype plugin indent on
 autocmd FileType markdown setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType journal setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 expandtab
-autocmd Filetype c, cpp setlocal expandtab tabstop=2 shiftwidth=2 cindent
+autocmd Filetype c,cpp setlocal expandtab tabstop=2 shiftwidth=2 cindent
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Plugin configuration
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ALE
+let g:ale_linters = {'python': ['flake8']}
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'python': ['yapf','autopep8']
+\}
+let g:python_highlight_all = 1
+let g:ale_completion_enabled = 1
+
 " Supertab
 let g:SuperTabDefaultCompletionType = "<C-n>"
 
@@ -180,8 +200,11 @@ let g:UltiSnipsExpandTrigger="<C-Space>"
 let g:UltiSnipsJumpForwardTrigger="<Tab>"
 let g:UltiSnipsJumpBackwardTrigger="<C-x>"
 
+" Background color focus
+let g:diminactive_enable_focus = 1
+
 " Airline
-let g:airline_powerline_fonts = 0
+let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod =':t'
 
@@ -194,8 +217,8 @@ let g:limelight_conceal_ctermfg = 240
 " NERDTree
 let NERDTreeShowHidden=1
 let NerdTreeShowLineNumbers=0
-let g:NERDTreeDirArrowExpandable =  '▸' "'↠'
-let g:NERDTreeDirArrowCollapsible = '🔰' " '▾' '↡'
+let g:NERDTreeDirArrowExpandable = '↠'
+let g:NERDTreeDirArrowCollapsible = '🔰'
 
 " Close vim if the last window open is NerdTree
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -242,37 +265,19 @@ let g:indentLine_color_gui = '#363949'
 let g:comfortable_motion_scroll_down_key = "j"
 let g:comfortable_motion_scroll_up_key = "k"
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""" Color_Scheme
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Buffergator
+let g:buffergator_viewport_split_policy="T"
+let g:buffergator_hsplit_size=10
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" Color Scheme
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 colorscheme xcodedark
+let g:airline_theme = "alduin"
 
-" Dracula Mode (Dark)
-function! ColorDracula()
-    let g:airline_theme=''
-    color dracula
-    IndentLinesEnable
-endfunction
-
-" Seoul256 Mode (Dark & Light)
-function! ColorSeoul256()
-    let g:airline_theme='silver'
-    color seoul256
-    IndentLinesDisable
-endfunction
-
-" Forgotten Mode (Light)
-function! ColorForgotten()
-    " Light airline themes: tomorrow, silver, alduin
-    " Light colors: forgotten-light, nemo-light
-    let g:airline_theme='tomorrow'
-    color forgotten-light
-    IndentLinesDisable
-endfunction
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Custom keydding
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nmap \ <leader>q
 map  <silent><leader>q :NERDTreeToggle<cr>
 nmap <silent><leader>w :TagbarToggle<cr>
@@ -282,20 +287,17 @@ map  <leader>fzf :Files<cr>
 " Colors option
 nmap <leader>ee :Colors<cr>
 nmap <leader>ea :AirlineTheme
-nmap <leader>e0 :call ColorDracula()<cr>
-nmap <leader>e2 :call ColorSeoul256()<cr>
-nmap <leader>e3 :call ColorForgotten()<cr>
 
 " Easy-align
 xmap <leader>a gaip*
 nmap <leader>a gaip*
 
-" Split
+" Split windows
 nmap <leader>s- :split
 nmap <leader>s\ :vsplit
 
 " trailing whitespace
-nnoremap <leader>t :StripWhitespace<cr>
+nnoremap <leader>cl :StripWhitespace<cr>
 
 " reload init.vim
 nmap <leader>r :so ~/.config/nvim/init.vim<cr>
@@ -305,13 +307,13 @@ noremap <leader>gst :Gstatus<cr>
 noremap <leader>git :Git
 
 " Toggle ColumnWidth
-nnoremap <leader>c :call ToggleColumnWidth()<cr>
+" nnoremap <leader>c :call ToggleColumnWidth()<cr>
 
 " Resizing windows
-noremap <silent><leader>= :exe "resize +3"<cr>
-noremap <silent><leader>- :exe "resize -3"<cr>
-noremap <silent><leader>1 :exe "vertical resize -8"<cr>
-noremap <silent><leader>2 :exe "vertical resize +8"<cr>
+noremap <leader>= :exe "resize +3"<cr>
+noremap <leader>- :exe "resize -3"<cr>
+noremap <leader>1 :exe "vertical resize -8"<cr>
+noremap <leader>2 :exe "vertical resize +8"<cr>
 
 " Use arrow keys to switch tabs
 noremap <leader>bq :bp <BAR> bd #<cr>
@@ -327,8 +329,18 @@ vnoremap <leader>s :'<,'>!sort -f<cr>
 " For python codi
 noremap <leader>codi :Codi!!<cr>
 
+" Format JSON
+noremap <leader>js :%!python -m json.tool<cr>
+
 " UndoTree history undo
 noremap <F3> :UndotreeToggle<cr>
+
+" expand region
+map K <Plug>(expand_region_expand)
+map J <Plug>(expand_region_shrink)
+
+" BufferGator
+nmap ,g :BuffergatorToggle<cr>
 
 " Some mistake keys
 map Q gq
