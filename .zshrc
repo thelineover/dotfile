@@ -39,7 +39,7 @@ else
 fi
 
 # My-aliases
-alias ez="v ~/.zshrc"
+# alias ez="v ~/.zshrc"
 alias sz="source ~/.zshrc"
 alias et="v ~/.tmux.conf"
 alias vimrc="vim ~/.vimrc"
@@ -48,7 +48,7 @@ alias cl="clear"
 alias dev="cd /mnt/c/Users/Neobby_Dev/DevOps"
 alias deactivate="pyenv deactivate"
 alias -g gp="| grep -i"
-alias v="nvim"
+# alias v="nvim"
 alias celar="clear"
 alias deact="pyenv deactivate"
 

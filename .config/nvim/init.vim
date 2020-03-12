@@ -76,6 +76,7 @@ call plug#end()
 """ General Configuration
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 syntax on
+
 set hidden
 set title
 set showcmd showmode
@@ -149,6 +150,7 @@ set undofile
 set undodir=/tmp
 
 set number relativenumber
+autocmd InsertEnter,InsertLeave * set cul!
 autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
 autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 
