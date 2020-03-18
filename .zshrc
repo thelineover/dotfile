@@ -39,16 +39,16 @@ else
 fi
 
 # My-aliases
-# alias ez="v ~/.zshrc"
+alias ez="nvim ~/.zshrc"
 alias sz="source ~/.zshrc"
-alias et="v ~/.tmux.conf"
+alias et="nvim ~/.tmux.conf"
 alias vimrc="vim ~/.vimrc"
-alias nvimrc="v ~/.config/nvim/init.vim"
+alias nvimrc="nvim ~/.config/nvim/init.vim"
 alias cl="clear"
 alias dev="cd /mnt/c/Users/Neobby_Dev/DevOps"
 alias deactivate="pyenv deactivate"
 alias -g gp="| grep -i"
-# alias v="nvim"
+alias v="nvim"
 alias celar="clear"
 alias deact="pyenv deactivate"
 
