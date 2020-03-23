@@ -1,7 +1,7 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nocompatible
 filetype off
-let mapleader=","
+let mapleader=" "
 noremap <leader>r :so ~/.config/nvim/init.vim<cr>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -76,6 +76,8 @@ let g:indent_guides_guide_size = 1
 hi IndentGuidesOdd  ctermbg=black
 hi IndentGuidesEven ctermbg=darkgrey
 
+Plug 'ervandew/supertab'
+
 Plug 'Yggdroot/indentLine'
 let g:indentLine_char = '▏'
 let g:indentLine_color_gui = '#363949'
@@ -102,9 +104,9 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'mbbill/undotree'
 noremap <F3> :UndotreeToggle<cr>
 
-" Useful python
+" Useful pythou
 Plug 'metakirby5/codi.vim'
-noremap <leader>codi :Codi!!<cr>
+noremap <leader>run :Codi!!<cr>
 
 " Expand Visual-block
 Plug 'terryma/vim-expand-region'
@@ -114,8 +116,17 @@ map J <Plug>(expand_region_shrink)
 Plug 'blueyed/vim-diminactive'
 let g:diminactive_enable_focus = 1
 
+" Python coding style
+Plug 'heavenshell/vim-pydocstring'
+
 " Autocompletion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'davidhalter/jedi-vim'
+
+" LSP https://github.com/mattn/vim-lsp-settings
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
 call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -124,7 +135,7 @@ call plug#end()
 """ Color Scheme
 colorscheme xcodedark
 let g:airline_theme = "fruit_punch"
-"
+
 syntax on
 set noshowmode
 set cmdheight=2
@@ -194,6 +205,7 @@ autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4 autoindent
 " Colors option
 nmap <leader>ee :Colors<cr>
 nmap <leader>ea :AirlineTheme
+nmap <leader>rc :tabnew ~/.config/nvim/init.vim<cr>
 
 " Split windows
 nmap <leader>s- :split

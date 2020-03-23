@@ -40,18 +40,25 @@ fi
 
 # My-aliases
 alias ez="nvim ~/.zshrc"
-alias sz="source ~/.zshrc"
 alias et="nvim ~/.tmux.conf"
+alias sz="source ~/.zshrc"
+
 alias vimrc="vim ~/.vimrc"
 alias nvimrc="nvim ~/.config/nvim/init.vim"
-alias cl="clear"
+
 alias dev="cd /mnt/c/Users/Neobby_Dev/DevOps"
 alias deactivate="pyenv deactivate"
-alias -g gp="| grep -i"
-alias v="nvim"
-alias celar="clear"
 alias deact="pyenv deactivate"
 
+alias -g gp="| grep -i"
+alias v="nvim"
+
+# Many mistake keys
+alias cl="clear"
+alias celar="clear"
+alias cle="clear"
+
+# Only display Username
 prompt_context() {
   if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
     prompt_segment black default "🔥 %(!.%{%F{white}.%})$USER"
