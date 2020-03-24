@@ -21,21 +21,29 @@ Plug 'vwxyutarooo/nerdtree-devicons-syntax'
 Plug 'arzg/vim-colors-xcode'
 Plug 'kristijanhusak/vim-hybrid-material'
 
-""" Plugin configuration
 " Pretty dev-icons
 Plug 'ryanoasis/vim-devicons'
+
 " Airline
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod =':t'
+
 " EasyAlign
 Plug 'junegunn/vim-easy-align'
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 xmap <leader>a gaip*
 nmap <leader>a gaip*
+
+" Limelight && Goyo
+Plug 'junegunn/goyo.vim'
+nmap <leader>go :Goyo<cr>
+Plug 'junegunn/limelight.vim'
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
 
 " Tagbar
 Plug 'majutsushi/tagbar'
@@ -65,6 +73,7 @@ let g:NERDTreeIndicatorMapCustom = {
     \ 'Ignored'   : '💢',
     \ "Unknown"   : "❓"
     \ }
+
 " Autopair close
 Plug 'jiangmiao/auto-pairs'
 
@@ -127,6 +136,9 @@ Plug 'davidhalter/jedi-vim'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
+
+Plug 'pechorin/any-jump.vim'
+
 call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -237,3 +249,8 @@ map Q gq
 cmap Wq wq
 cmap W w
 cmap Q q
+
+" Some useful keys
+nmap <c-s> :update<cr>
+vmap <c-s> <c-c>:update<cr>
+imap <c-s> <c-o>:update<cr>
