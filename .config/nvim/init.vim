@@ -38,16 +38,19 @@ nmap ga <Plug>(EasyAlign)
 xmap <leader>a gaip*
 nmap <leader>a gaip*
 
+Plug 'easymotion/vim-easymotion'
+
 " Limelight && Goyo
 Plug 'junegunn/goyo.vim'
 nmap <leader>go :Goyo<cr>
+
 Plug 'junegunn/limelight.vim'
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
 
 " Tagbar
 Plug 'majutsushi/tagbar'
-nmap <silent><leader>w :TagbarToggle<cr>
+nmap <silent><leader>? :TagbarToggle<cr>
 let g:tagbar_width = 35
 let g:tagbar_iconchars = ['↠', '↡']
 
@@ -80,12 +83,12 @@ Plug 'jiangmiao/auto-pairs'
 " IndentGuide-style
 Plug 'nathanaelkane/vim-indent-guides'
 let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_start_level = 2
+let g:indent_guides_start_level = 1
+let g:indent_guides_color_change_percent = 3
 let g:indent_guides_guide_size = 1
 hi IndentGuidesOdd  ctermbg=black
 hi IndentGuidesEven ctermbg=darkgrey
 
-Plug 'ervandew/supertab'
 
 Plug 'Yggdroot/indentLine'
 let g:indentLine_char = '▏'
@@ -95,7 +98,7 @@ let g:indentLine_color_gui = '#363949'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  }
 Plug 'junegunn/fzf.vim'
 map  <leader>fzf :Files<cr>
-
+Plug 'vifm/vifm'
 Plug 'machakann/vim-highlightedyank'
 
 " Clean Whitespace
@@ -125,40 +128,127 @@ map J <Plug>(expand_region_shrink)
 Plug 'blueyed/vim-diminactive'
 let g:diminactive_enable_focus = 1
 
-" Python coding style
-Plug 'heavenshell/vim-pydocstring'
-
+"==================================================================================================="
 " Autocompletion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'davidhalter/jedi-vim'
+noremap <leader>int :CocCommand python.setInterpreter<cr>
+" TextEdit might fail if hidden is not set.
+set hidden
+
+" Some servers have issues with backup files, see #649.
+set nobackup
+set nowritebackup
+
+" Give more space for displaying messages.
+set cmdheight=2
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=100
+
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+" Git Gutter always shows
+set signcolumn=yes
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+    \ pumvisible() ? "\<C-n>" :
+    \ <SID>check_back_space() ? "\<TAB>" :
+    \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position. Coc only does snippet and additional edit on confirm.
+if has('patch8.1.1068')
+    " Use `complete_info` if your (Neo)Vim version supports it.
+    inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+    imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+
+vmap <leader>a <Plug>(coc-codeaction-selected)
+nmap <leader>a <Plug>(coc-codeaction-selected)
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>f <Plug>(coc-format-selected)
+nmap <leader>f <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+"==================================================================================================="
 
 " LSP https://github.com/mattn/vim-lsp-settings
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 
+
+" Better syntax
+Plug 'octol/vim-cpp-enhanced-highlight'
+
 Plug 'pechorin/any-jump.vim'
+Plug 'frazrepo/vim-rainbow'
+let g:rainbow_active = 1
 
+Plug 'gabrielelana/vim-markdown'
+Plug 'shime/vim-livedown'
+nmap <leader>md :LivedownToggle<cr>
+
+" Wakatime
+Plug 'wakatime/vim-wakatime'
 call plug#end()
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ General Configuration
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Color Scheme
 colorscheme xcodedark
-let g:airline_theme = "fruit_punch"
+set background=dark
+let g:airline_theme = "base16_gruvbox_dark_hard"
 
 syntax on
 set noshowmode
-set cmdheight=2
 set list listchars=trail:»,tab:»-,eol:¬
-set pastetoggle=<F2>
+set pastetoggle=<F1>
 
 " indent for global
 set expandtab
 set shiftwidth=4
 set softtabstop=4
-set autoindent
 
 " Automatic indentation is good
 set autoindent
@@ -166,7 +256,7 @@ set smartindent
 
 " Searching
 set hlsearch
-nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
+nnoremap <silent><Space> :nohlsearch<Bar>:echo<CR>
 set ignorecase
 set smartcase
 
@@ -190,10 +280,6 @@ function! ToggleColumnWidth()
     endif
 endfunction
 
-" Git Gutter always shows
-set signcolumn=yes
-set updatetime=100
-
 set number relativenumber
 autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
 autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
@@ -209,8 +295,7 @@ filetype plugin indent on
 autocmd FileType markdown setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType journal setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType c,cpp setlocal expandtab shiftwidth=2 softtabstop=2 cindent
-autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4 autoindent
-
+autocmd FileType python setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Custom keydding
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -219,9 +304,12 @@ nmap <leader>ee :Colors<cr>
 nmap <leader>ea :AirlineTheme
 nmap <leader>rc :tabnew ~/.config/nvim/init.vim<cr>
 
+" Move Cursor to previous position
+nmap <leader><leader>o <c-o>
+
 " Split windows
-nmap <leader>s- :split
-nmap <leader>s\ :vsplit
+nmap <leader>sp :split
+nmap <leader>vsp :vsplit
 
 " Git status
 noremap <leader>gst :Gstatus<cr>

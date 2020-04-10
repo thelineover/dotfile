@@ -256,7 +256,8 @@ prompt_time() {
   # echo -n "\ue0b3 "
   # echo -n  🍺
   # echo -n "🕚 %{$fg[cyran]%} %w,%t"
-  prompt_segment white black "🕚%t 🍺"
+  # prompt_segment white black "🕚%t 🍺"
+  prompt_segment white black "%t 🍺"
 }
 
 ## Main prompt

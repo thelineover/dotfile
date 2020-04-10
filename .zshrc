@@ -20,7 +20,21 @@ ZSH_THEME="agnoster"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git fzf sudo zsh-256color h forgit zsh-autosuggestions zsh-interactive-cd emoji-cli fast-syntax-highlighting up tmux)
+plugins=(
+    git
+    fzf
+    sudo
+    zsh-256color
+    h
+    forgit
+    zsh-autosuggestions
+    zsh-interactive-cd
+    emoji-cli
+    fast-syntax-highlighting
+    up
+    tmux
+    pip
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -45,8 +59,10 @@ alias sz="source ~/.zshrc"
 
 alias vimrc="vim ~/.vimrc"
 alias nvimrc="nvim ~/.config/nvim/init.vim"
+alias etp="nvim ~/.tmux-powerline/themes/default.sh"
 
 alias dev="cd /mnt/c/Users/Neobby_Dev/DevOps"
+alias share="cd /mnt/c/Users/Neobby_Dev/wsl_share"
 alias deactivate="pyenv deactivate"
 alias deact="pyenv deactivate"
 
@@ -57,6 +73,8 @@ alias v="nvim"
 alias cl="clear"
 alias celar="clear"
 alias cle="clear"
+alias claer="clear"
+alias clera="clear"
 
 # Only display Username
 prompt_context() {
@@ -71,9 +89,7 @@ export VIRTUAL_ENV_DISABLE_PROMPT=0
 # Pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
+eval "$(pyenv init -)"
 
 # Autoenv
 export AUTOENV_ENABLE_LEAVE='"enabled"'
@@ -97,3 +113,12 @@ export NVM_DIR="$HOME/.nvm"
 
 # X11
 export DISPLAY=:0
+
+# Tmux autoRun
+if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+    tmux attach -t default || tmux new -s default
+fi
+
+# pip AutoComplete
+eval "`pip completion --zsh`"
+compctl -K _pip_completion pip3
