@@ -1,8 +1,8 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nocompatible
 filetype off
-let mapleader=" "
-noremap <leader>r :so ~/.config/nvim/init.vim<cr>
+let mapleader = " "
+noremap <leader>r :so ~/.config/nvim/init.vim <cr>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Vim-plug
@@ -20,6 +20,7 @@ Plug 'tomasr/molokai'
 Plug 'vwxyutarooo/nerdtree-devicons-syntax'
 Plug 'arzg/vim-colors-xcode'
 Plug 'kristijanhusak/vim-hybrid-material'
+Plug 'morhetz/gruvbox'
 
 " Pretty dev-icons
 Plug 'ryanoasis/vim-devicons'
@@ -35,8 +36,6 @@ let g:airline#extensions#tabline#fnamemod =':t'
 Plug 'junegunn/vim-easy-align'
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
-xmap <leader>a gaip*
-nmap <leader>a gaip*
 
 Plug 'easymotion/vim-easymotion'
 
@@ -107,6 +106,8 @@ nnoremap <leader>cl :StripWhitespace<cr>
 
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
+nmap <leader>gs :G<cr>
+
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-commentary'
@@ -115,6 +116,8 @@ Plug 'tpope/vim-surround'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'mbbill/undotree'
 noremap <F3> :UndotreeToggle<cr>
+set undodir=~/.config/nvim/undodir
+set undofile
 
 " Useful pythou
 Plug 'metakirby5/codi.vim'
@@ -217,7 +220,6 @@ Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 
-
 " Better syntax
 Plug 'octol/vim-cpp-enhanced-highlight'
 
@@ -231,19 +233,24 @@ nmap <leader>md :LivedownToggle<cr>
 
 " Wakatime
 Plug 'wakatime/vim-wakatime'
+
+" Autopep8
+Plug 'tell-k/vim-autopep8'
 call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ General Configuration
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ Color Scheme
-colorscheme xcodedark
+" colorscheme xcodedark
+colorscheme gruvbox
 set background=dark
+set cursorline
 let g:airline_theme = "base16_gruvbox_dark_hard"
 
 syntax on
 set noshowmode
 set list listchars=trail:»,tab:»-,eol:¬
-set pastetoggle=<F1>
+set pastetoggle=<F2>
 
 " indent for global
 set expandtab
@@ -300,33 +307,34 @@ autocmd FileType python setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4
 """ Custom keydding
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Colors option
-nmap <leader>ee :Colors<cr>
+nmap <leader>ee :Colors <cr>
 nmap <leader>ea :AirlineTheme
-nmap <leader>rc :tabnew ~/.config/nvim/init.vim<cr>
+nmap <leader>rc :tabnew ~/.config/nvim/init.vim <cr>
 
 " Move Cursor to previous position
 nmap <leader><leader>o <c-o>
+
 
 " Split windows
 nmap <leader>sp :split
 nmap <leader>vsp :vsplit
 
 " Git status
-noremap <leader>gst :Gstatus<cr>
+noremap <leader>gst :Gstatus <cr>
 noremap <leader>git :Git
 
 " Resizing windows
-noremap <leader>= :exe "resize +3"<cr>
-noremap <leader>- :exe "resize -3"<cr>
-noremap <leader>1 :exe "vertical resize -8"<cr>
-noremap <leader>2 :exe "vertical resize +8"<cr>
+noremap <leader>= :exe "resize +3" <cr>
+noremap <leader>- :exe "resize -3" <cr>
+noremap <leader>1 :exe "vertical resize -8" <cr>
+noremap <leader>2 :exe "vertical resize +8" <cr>
 
 " Use arrow keys to switch tabs
-noremap <leader>bq :bp <BAR> bd #<cr>
-noremap <leader><Left> :tabprevious <cr>
-noremap <leader><Right> :tabnext     <cr>
-noremap <Left> :bprevious<cr>
-noremap <Right> :bnext<cr>
+noremap <leader>bq :bp <BAR> bd#<cr>
+noremap <leader><Left> :tabprevious<cr>
+noremap <leader><Right> :tabnext<cr>
+noremap <Left> :bprevious <cr>
+noremap <Right> :bnext <cr>
 noremap <leader>to :tabnew
 
 " Format JSON
@@ -340,5 +348,7 @@ cmap Q q
 
 " Some useful keys
 nmap <c-s> :update<cr>
-vmap <c-s> <c-c>:update<cr>
-imap <c-s> <c-o>:update<cr>
+vmap <c-s> <c-c> :update<cr>
+imap <c-s> <c-o> :update<cr>
+
+highlight LineNr ctermfg=DarkCyan
