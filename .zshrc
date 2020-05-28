@@ -34,6 +34,7 @@ plugins=(
     up
     tmux
     pip
+    zsh-wakatime
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -46,7 +47,7 @@ else
 fi
 
 # My-aliases
-alias ez="nvim ~/.zshrc"
+alias zshrc="nvim ~/.zshrc"
 alias et="nvim ~/.tmux.conf"
 alias sz="source ~/.zshrc"
 
@@ -68,6 +69,7 @@ alias celar="clear"
 alias cle="clear"
 alias claer="clear"
 alias clera="clear"
+alias sl="ls"
 
 # Only display Username
 prompt_context() {

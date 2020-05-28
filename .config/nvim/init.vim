@@ -8,6 +8,7 @@ noremap <leader>r :so ~/.config/nvim/init.vim <cr>
 """ Vim-plug
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.config/nvim/')
+
 " Colorscheme Plugs
 Plug 'junegunn/seoul256.vim'
 Plug 'junegunn/rainbow_parentheses.vim'
@@ -36,6 +37,8 @@ let g:airline#extensions#tabline#fnamemod =':t'
 Plug 'junegunn/vim-easy-align'
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
+xmap <leader>a gaip*
+nmap <leader>a gaip*
 
 Plug 'easymotion/vim-easymotion'
 
@@ -157,14 +160,14 @@ set shortmess+=c
 " Git Gutter always shows
 set signcolumn=yes
 
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-    \ pumvisible() ? "\<C-n>" :
-    \ <SID>check_back_space() ? "\<TAB>" :
-    \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" " Use tab for trigger completion with characters ahead and navigate.
+" " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" " other plugin before putting this into your config.
+" inoremap <silent><expr> <TAB>
+"     \ pumvisible() ? "\<C-n>" :
+"     \ <SID>check_back_space() ? "\<TAB>" :
+"     \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
     let col = col('.') - 1
@@ -182,9 +185,6 @@ if has('patch8.1.1068')
 else
     imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
-
-vmap <leader>a <Plug>(coc-codeaction-selected)
-nmap <leader>a <Plug>(coc-codeaction-selected)
 
 " Use `[g` and `]g` to navigate diagnostics
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -222,6 +222,7 @@ Plug 'mattn/vim-lsp-settings'
 
 " Better syntax
 Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 
 Plug 'pechorin/any-jump.vim'
 Plug 'frazrepo/vim-rainbow'
@@ -236,6 +237,12 @@ Plug 'wakatime/vim-wakatime'
 
 " Autopep8
 Plug 'tell-k/vim-autopep8'
+
+" marker
+Plug 'kshenoy/vim-signature'
+
+" Scratch
+Plug 'mtth/scratch.vim'
 call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """ General Configuration
@@ -251,6 +258,7 @@ syntax on
 set noshowmode
 set list listchars=trail:»,tab:»-,eol:¬
 set pastetoggle=<F2>
+set clipboard=unnamed
 
 " indent for global
 set expandtab
@@ -322,6 +330,7 @@ nmap <leader>vsp :vsplit
 " Git status
 noremap <leader>gst :Gstatus <cr>
 noremap <leader>git :Git
+noremap <leader>gcm :Git commit<cr>
 
 " Resizing windows
 noremap <leader>= :exe "resize +3" <cr>
@@ -331,8 +340,8 @@ noremap <leader>2 :exe "vertical resize +8" <cr>
 
 " Use arrow keys to switch tabs
 noremap <leader>bq :bp <BAR> bd#<cr>
-noremap <leader><Left> :tabprevious<cr>
-noremap <leader><Right> :tabnext<cr>
+noremap <Tab> :tabnext<cr>
+noremap <S-Tab> :tabprevious<cr>
 noremap <Left> :bprevious <cr>
 noremap <Right> :bnext <cr>
 noremap <leader>to :tabnew
