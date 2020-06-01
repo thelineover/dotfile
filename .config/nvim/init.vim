@@ -237,6 +237,7 @@ Plug 'wakatime/vim-wakatime'
 
 " Autopep8
 Plug 'tell-k/vim-autopep8'
+Plug 'python-mode/python-mode'
 
 " marker
 Plug 'kshenoy/vim-signature'
