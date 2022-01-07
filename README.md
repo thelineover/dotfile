@@ -1,6 +1,6 @@
 # DotFile
 
-* Update on mac mini
+* Update on mac
 
 ## For Neovim
 
