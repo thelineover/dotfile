@@ -25,6 +25,8 @@ Plug 'ryanoasis/vim-devicons'
 
 Plug 'tmux-plugins/vim-tmux'
 
+Plug 'MattesGroeger/vim-bookmarks'
+
 " Airline
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -491,7 +493,6 @@ augroup go
   au FileType go nmap <leader>rb :<C-u>call <SID>build_go_files()<CR>
 
 augroup END
-
 "*****************************************************************************
 "" Convenience variables
 "*****************************************************************************
